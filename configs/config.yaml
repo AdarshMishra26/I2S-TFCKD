@@ -1,0 +1,35 @@
+data:
+  sr: 16000
+  seg_seconds: 2.5
+  window_ms: 32
+  hop_ms: 16
+  n_fft: 512
+  dataset: DNS
+  noisy_path: ./data/noisy
+  clean_path: ./data/clean
+model:
+  backbone:
+    teacher:
+      in_ch: 2
+      channels: [128, 128]
+      dilations: [1,2,4,8]
+      n_ft: 4
+      ft_hidden: 128
+    student:
+      in_ch: 2
+      channels: [64, 64]
+      dilations: [1,2,4,8]
+      n_ft: 1
+      ft_hidden: 64
+distillation:
+  tfckd:
+    emb_factor: 4
+training:
+  optimizer: Adam
+  lr: 6e-4
+  batch_size: 4
+  epochs: 20
+  device: cuda
+  save_every: 1
+  resume: True
+  use_amp: True
